@@ -1,0 +1,167 @@
+---
+title: "Dyplr&Data.table"
+author: "Simon Ress"
+date: "17 4 2020"
+output:
+  pdf_document:
+    includes:
+      in_header: preamble.tex
+  html_document:
+    css: preamble.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r, message=FALSE}
+library(dplyr)
+library(data.table)
+library(gapminder)
+```
+
+
+#Import data
+
+<div class="column-left">
+\btwocol
+dplyr
+```{r}
+data <- read.csv2("data.csv")
+```  
+</div>
+
+\columnbreak    
+    
+<div class="column-right">
+data.table
+```{r}
+data.dt <- as.data.table(
+                      read.csv2("data.csv")
+                      )
+```  
+\etwocol
+</div>
+
+
+
+Getting the number of distinct/unique values in a variable    
+ 
+<div class="column-left">
+\btwocol
+dplyr
+```{r}
+data %>%
+  summarize(n = n_distinct(Country))
+```  
+</div>
+
+\columnbreak    
+    
+<div class="column-right">
+data.table
+```{r}
+data.dt[,.(n = uniqueN(Country))]
+```  
+\etwocol
+</div>
+    
+\newpage
+
+... grouped by another variable 
+
+<div class="column-left">
+\btwocol
+dplyr
+```{r}
+data %>%
+  group_by(fed) %>%
+  summarize(n = n_distinct(Country)) %>%
+  head(4)
+```  
+</div>
+
+\columnbreak    
+    
+<div class="column-right">
+data.table
+```{r}
+data.dt[,
+        .(n = uniqueN(Country)),
+        by = "fed"][1:4]
+```  
+\etwocol
+</div>
+
+
+... filter by values of two other variables 
+
+<div class="column-left">
+\btwocol
+dplyr
+```{r}
+gapminder %>%
+  filter(lifeExp >= 30, lifeExp <= 60) %>%
+  group_by(continent) %>%
+  summarize(n = n_distinct(country)) %>%
+  head(4)
+```  
+</div>
+
+\columnbreak    
+    
+<div class="column-right">
+data.table
+```{r}
+data.dt <- as.data.table(gapminder)
+data.dt[lifeExp >= 30 & lifeExp <= 60,
+        .(n = uniqueN(country)),
+        by = "continent"][1:4]
+```  
+\etwocol
+</div>
+
+
+
+... filter by values of two other variables 
+
+<div class="column-left3">
+\bthreecol
+base-R
+```{r}
+aggregate(country ~ continent,
+          data = subset(gapminder,lifeExp >= 30, lifeExp <= 60), 
+          function(x) count=n_distinct(x))
+```  
+</div>
+
+\columnbreak 
+
+<div class="column-mid3">
+dplyr
+```{r}
+gapminder %>%
+  filter(lifeExp >= 30, lifeExp <= 60) %>%
+  group_by(continent) %>%
+  summarize(n = n_distinct(country))
+```  
+</div>
+
+\columnbreak  
+    
+<div class="column-right3">
+data.table
+```{r}
+data.dt <- as.data.table(gapminder)
+data.dt[lifeExp >= 30 & lifeExp <= 60,
+        .(n = uniqueN(country)),
+        by = "continent"]
+```  
+\ethreecol
+</div>
