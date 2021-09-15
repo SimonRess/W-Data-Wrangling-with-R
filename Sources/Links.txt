@@ -7,6 +7,9 @@ https://dplyr.tidyverse.org/index.html
 Introduction to dplyr:
 https://dplyr.tidyverse.org/articles/dplyr.html
 
+Multiple t-Tests with dplyr:
+https://sebastiansauer.github.io/multiple-t-tests-with-dplyr/
+
 
 The R equivalent of Stata's _n & _N function?
 	vect=c(1,1,1,2,2,2,2,3,3,3,3,3,4)
