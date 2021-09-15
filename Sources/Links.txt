@@ -1,0 +1,18 @@
+Tidyverse:
+https://www.tidyverse.org/
+
+dplyr Overview:
+https://dplyr.tidyverse.org/index.html
+
+Introduction to dplyr:
+https://dplyr.tidyverse.org/articles/dplyr.html
+
+
+The R equivalent of Stata's _n & _N function?
+	vect=c(1,1,1,2,2,2,2,3,3,3,3,3,4)
+
+STATA: bysort vect:gen n=_n
+R: n=ave(1:length(vect), vect, FUN = seq_along)
+
+STATA: bysort vect:gen N=_N
+R: ave(1:length(vect), vect, FUN = length)
