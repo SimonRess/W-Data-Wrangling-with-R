@@ -1,5 +1,5 @@
 require(dplyr)
-align.left = function(d, varname) {
+align.left <- function(d, varname) {
   num = sum(startsWith(names(d), varname)) 
   
   while(any(is.na(d[, paste0(varname,1)]) & rowSums(is.na(d))<num)){ 
