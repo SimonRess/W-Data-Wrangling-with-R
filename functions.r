@@ -1,3 +1,4 @@
+require(dplyr)
 align.left = function(d, varname) {
   num = sum(startsWith(names(d), varname)) 
   
