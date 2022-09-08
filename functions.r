@@ -2,7 +2,7 @@ require(dplyr)
 align.left <- function(d, varname) {
   num = sum(startsWith(names(d), varname)) 
   
-  while(any(is.na(d[, paste0(varname,1)]))){ 
+  while(any(is.na(d[, paste0(varname,1)]) & rowSums(is.na(d))<num )){ 
     for(i in 1:(num-1)) {
       var1 = paste0(varname, i)
       var2 = paste0(varname, i+1)
